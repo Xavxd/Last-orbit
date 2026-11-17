@@ -2,6 +2,10 @@
 
 > _"Moving at_ $68.4\text{ km/s}$ _on an open hyperbolic trajectory, a visitor from another star system is crossing our cosmic neighborhood. We only have 72 hours to intercept it before it vanishes into the void forever."_
 
+## 📖 Game Design & Narrative
+Explore the complete story, game mechanics, and balance rules in [docs/GDD_LAST_ORBIT.md](docs/GDD_LAST_ORBIT.md).
+
+
 ## 🌌 Project Overview
 
 **LAST ORBIT** is a **roguelike** strategy, resource-management, and narrative survival game featuring retro aerospace console _pixel art_, developed for the **NASA Space Apps Challenge**.
@@ -29,7 +33,3 @@ Through its interactive systems, **LAST ORBIT** introduces players to real conce
 
 ## 🕹️ PLAY THE GAME ##
 https://white-forest-0f9972610.5.azurestaticapps.net/
-
-
-## 📖 Game Design & Narrative
-Explore the complete story, game mechanics, and balance rules in [docs/GDD_LAST_ORBIT.md](docs/GDD_LAST_ORBIT.md).
