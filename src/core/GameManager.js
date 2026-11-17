@@ -19,8 +19,14 @@ export class GameManager {
         this.cards = new CardManager(this);
     }
 
-    startGame() {
+    startGame(loadout) {
         if (this.state.status !== 'preparation') return false;
+        if (!loadout?.ship || !loadout?.artifact || !Array.isArray(loadout.crew)
+            || loadout.crew.length !== loadout.ship.crewCapacity) return false;
+        if (loadout.ship.defaultCrew && !loadout.crew.some(member => member.id === loadout.ship.defaultCrew)) return false;
+        this.state.ship = loadout.ship.id;
+        this.state.artifact = loadout.artifact.id;
+        this.state.selectedCrew = loadout.crew.map(member => member.id);
         crewData.forEach(c => this.crew.addCrewMember(new CrewMember(c.name, c.specialty)));
         this.cards.buildDeck();
         this.cards.startTurn();

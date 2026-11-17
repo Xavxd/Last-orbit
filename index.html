@@ -18,42 +18,99 @@
 
     <div id="modal-intro" class="modal-overlay hidden">
         <div class="modal-box">
-            <p class="modal-text">"Hello!! Luke, congratulations on your promotion to Commander. I know howhard you worked to get here, and it is urgent that you see this. During a routine sweep by the Vera C. Rubin Observatory in the Chilean Andes, an uncataloged object was suddenlydetected moving at hyperbolic speed." .</p>
-            <button id="btn-next" class="btn-next">Next</button>
+            <p class="modal-text">Hello!! Luke, congratulations on your promotion to Commander. I know how hard you worked to get here, and it is urgent that you see this. During a routine sweep by the Vera C. Rubin Observatory in the Chilean Andes, an uncataloged object was suddenly detected moving at hyperbolic speed.</p>
+            <button id="btn-next" class="btn-next">Continue</button>
         </div>
     </div>
-<section id="screen-selection" class="screen">
-    <div class="console-panel">
-        <h2>1. Selección de Equipamiento y Tripulación</h2>
+    <div id="screen-loadout" class="screen loadout-screen">
+        <div class="loadout-shell">
+            <header class="loadout-header">
+                <p class="loadout-kicker">LAST ORBIT / FLIGHT DECK 01</p>
+                <h1>MISSION LOADOUT // TACTICAL CONFIGURATION</h1>
+                <p class="loadout-subtitle">Commander Luke, allocate your vessel, scientific payload, and specialist crew before departure. Higher scientific capability demands stricter resource management.</p>
+            </header>
 
-        <div class="selection-grid">
-            <div class="column">
-                <h3>Naves (Ships)</h3>
+            <ol class="loadout-round-indicator" aria-label="Loadout rounds">
+                <li class="is-active" data-round-indicator="1">ROUND 1/3: SPACECRAFT</li>
+                <li data-round-indicator="2">ROUND 2/3: SCIENTIFIC ARTIFACT</li>
+                <li data-round-indicator="3">ROUND 3/3: CREW SPECIALISTS</li>
+            </ol>
 
-                <div class="ship-card" data-ship="pegaso">
-                    <h4>Pegaso-I</h4>
-                    <p>"Built to move fast. Its lightweight design reduces energy consumption on every maneuver and leaves enough room for 2 crew members, though its hull will take less punishment if the mission gets complicated."</p>
-                     <img class="ship-img" src="assets/img/avion2.jpeg" alt="Nave Pegaso-I">   <!-- NUEVO -->
-                    <button class="select-btn">Seleccionar Pegaso-I</button>
-                </div>
+            <div class="loadout-layout">
+                <main class="loadout-selections">
+                    <section class="loadout-round-panel is-active" id="loadout-round-1" aria-labelledby="ship-heading">
+                        <div class="loadout-section__heading">
+                            <h2 id="ship-heading">SELECT SPACECRAFT <span>(CHOOSE 1)</span></h2>
+                            <span class="selection-count" id="ship-count">0 / 1</span>
+                        </div>
+                        <div class="loadout-options loadout-options--three" id="loadout-ships"></div>
+                    </section>
 
-                <div class="ship-card" data-ship="hercules">
-                    <h4>Hércules-IV</h4>
-                    <p>"Designed to withstand the harshest environments. Its armor absorbs critical impacts that others couldn't, but its heavy weight greatly increases energy consumption and limits the cabin to one companion."</p>
-                    <img class="ship-img" src="assets/img/avion1.jpeg" alt="Nave Hércules-IV">   <!-- NUEVO -->
-                    <button class="select-btn">Seleccionar Hércules-IV</button>
-                </div>
+                    <section class="loadout-round-panel" id="loadout-round-2" aria-labelledby="artifact-heading" hidden>
+                        <div class="loadout-section__heading">
+                            <h2 id="artifact-heading">SELECT SCIENTIFIC ARTIFACT <span>(CHOOSE 1)</span></h2>
+                            <span class="selection-count" id="artifact-count">0 / 1</span>
+                        </div>
+                        <div class="loadout-options loadout-options--three" id="loadout-artifacts"></div>
+                    </section>
 
-                <div class="ship-card" data-ship="talos">
-                    <h4>Talos-IA</h4>
-                    <p>"Integrates state-of-the-art technology to boost data collection. You will gain a major scientific advantage thanks to Danko, who will focus on gathering maximum data, plus you can choose one additional crew member. Unlike the others, it does not stand out for resource efficiency."</p>
-                    <img class="ship-img" src="assets/img/avion3.jpeg" alt="Nave Talos-IA">   <!-- NUEVO -->
-                    <button class="select-btn">Seleccionar Talos-IA</button>
+                    <section class="loadout-round-panel" id="loadout-round-3" aria-labelledby="crew-heading" hidden>
+                        <div class="loadout-section__heading">
+                            <div>
+                                <h2 id="crew-heading">ASSIGN CREW SPECIALISTS</h2>
+                                <p class="loadout-round-rule" id="loadout-round-rule">Select a spacecraft to view crew capacity.</p>
+                            </div>
+                            <span class="selection-count" id="crew-count">0 / 0</span>
+                        </div>
+                        <div class="loadout-options loadout-options--crew" id="loadout-crew"></div>
+                    </section>
+                </main>
+
+                <aside class="loadout-preview" aria-live="polite">
+                    <p class="loadout-kicker">PRE-LAUNCH TELEMETRY</p>
+                    <h2>MISSION PROFILE</h2>
+                    <dl id="loadout-summary"></dl>
+                    <p class="loadout-capacity" id="loadout-capacity">CREW CAPACITY // SELECT A SPACECRAFT</p>
+                    <div class="loadout-meters">
+                        <div class="telemetry-meter"><div><span>ENERGY</span><strong>10 / 10</strong></div><i><b></b></i></div>
+                        <div class="telemetry-meter"><div><span>HULL INTEGRITY</span><strong>10 / 10</strong></div><i><b></b></i></div>
+                        <div class="telemetry-meter"><div><span>LIFE SUPPORT</span><strong>10 / 10</strong></div><i><b></b></i></div>
+                    </div>
+                    <div class="loadout-actions">
+                        <button id="btn-loadout-back" class="loadout-back">BACK TO BRIEFING</button>
+                        <button id="btn-loadout-previous" class="loadout-back" disabled>PREVIOUS ROUND</button>
+                        <button id="btn-loadout-next" class="loadout-confirm" disabled>NEXT ROUND</button>
+                        <button id="btn-confirm-loadout" class="loadout-confirm" hidden disabled>CONFIRM LOADOUT &amp; LAUNCH</button>
+                    </div>
+                    <p class="loadout-lock" id="loadout-lock">CONFIGURATION INCOMPLETE // LAUNCH LOCKED</p>
+                </aside>
+            </div>
+            <footer class="loadout-footer"><span>DSN LINK: NOMINAL</span><span>DESTINATION: 3I / NYX</span><span>DEPARTURE WINDOW: T-00:00</span></footer>
+        </div>
+    </div>
+
+    <div id="screen-story" class="screen story-screen">
+        <main class="story-console">
+            <p class="story-kicker" id="story-kicker">MISSION CONTROL // LIVE TRANSMISSION</p>
+            <h1 id="story-title">MISSION UPDATE</h1>
+            <div class="story-layout">
+                <figure class="story-art" id="story-art-frame" hidden>
+                    <img id="story-art" alt="3I/Nyx observed from the spacecraft">
+                    <figcaption>OBSERVATORY VISUAL // 3I/NYX</figcaption>
+                    <aside class="object-tooltip" tabindex="0">
+                        <strong>OBJECT: 3I/NYX</strong>
+                        <span>A giant ball of ancient ice and dust that releases gas and light as it approaches the Sun. Coming from outside our Solar System, studying it will allow us to discover what exists in another corner of the galaxy.</span>
+                    </aside>
+                </figure>
+                <div class="story-copy">
+                    <p id="story-text"></p>
+                    <div class="story-actions" id="story-actions"></div>
                 </div>
             </div>
-        </div>
+            <div class="story-telemetry"><span>DSN CHANNEL // SECURE</span><span id="story-day"></span><span>MISSION CLOCK // RUNNING</span></div>
+        </main>
     </div>
-</section>
+
     <div id="screen-game" class="screen">
         <header class="hud">
             <div class="hud-stats" id="hud-stats"></div>
@@ -67,19 +124,33 @@
                 <div class="comic-panel panel--1">
                     <canvas class="minigame-canvas" data-minigame="1"></canvas>
                 </div>
-                <div class="comic-panel panel--2"></div>
-                <div class="comic-panel panel--3"></div>
+                <div class="comic-panel panel--2">
+                    <img src="assets/img/img1.png" alt="launch" class="comic-panel-img">
+                </div>
+                <div class="comic-panel panel--3">
+                    <img src="assets/img/img2.png" alt="view" class="comic-panel-img">
+                </div>
             </div>
             <div class="comic-layout comic-page layout--b" data-page="2">
                 <div class="comic-panel panel--wide panel--4">
                     <canvas class="minigame-canvas" data-minigame="2"></canvas></div>
-                <div class="comic-panel panel--5"></div>
-                <div class="comic-panel panel--6"></div>
-                <div class="comic-panel panel--7"></div>
+                <div class="comic-panel panel--5">
+                    <img src="assets/img/img3.png" alt="set" class="comic-panel-img">
+                </div>
+                <div class="comic-panel panel--6">
+                    <img src="assets/img/img4.png" alt="crew" class="comic-panel-img">
+                </div>
+                <div class="comic-panel panel--7">
+                    <img src="assets/img/img5.png" alt="servings" class="comic-panel-img">
+                </div>
             </div>
             <div class="comic-layout comic-page layout--c" data-page="3">
-                <div class="comic-panel panel--5"></div>
-                <div class="comic-panel panel--4"></div>
+                <div class="comic-panel panel--5">
+                    <img src="assets/img/img6.png" alt="failure" class="comic-panel-img">
+                </div>
+                <div class="comic-panel panel--4">
+                    <img src="assets/img/img7.png" alt="samples" class="comic-panel-img">
+                </div>
                 <div class="comic-panel panel--wide panel--6">
                     <canvas class="minigame-canvas" data-minigame="3"></canvas>
                 </div>
@@ -87,15 +158,25 @@
         <div class="comic-layout comic-page layout--d" data-page="4">
                 <div class="comic-panel panel--8">
                     <canvas class="minigame-canvas" data-minigame="4"></canvas></div>
-                <div class="comic-panel panel--9"></div>
-                <div class="comic-panel panel--10"></div>
-                <div class="comic-panel panel--7"></div>
+                <div class="comic-panel panel--9">
+                    <img src="assets/img/img8.png" alt="station" class="comic-panel-img">
+                </div>
+                <div class="comic-panel panel--10">
+                    <img src="assets/img/img9.png" alt="servings2" class="comic-panel-img">
+                </div>
+                <div class="comic-panel panel--7">
+                    <img src="assets/img/img10.png" alt="danger" class="comic-panel-img">
+                </div>
             </div>
             <div class="comic-layout comic-page layout--e" data-page="5">
-                <div class="comic-panel panel--9"></div>
+                <div class="comic-panel panel--9">
+                    <img src="assets/img/img11.png" alt="coupling" class="comic-panel-img">
+                </div>
                 <div class="comic-panel panel--tall panel--5">
                     <canvas class="minigame-canvas" data-minigame="5"></canvas></div>
-                <div class="comic-panel panel--8"></div>
+                <div class="comic-panel panel--8">
+                    <img src="assets/img/img12.png" alt="final" class="comic-panel-img">
+                </div>
             </div>
         </div>
 

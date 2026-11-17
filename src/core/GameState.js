@@ -9,6 +9,9 @@ export class GameState {
         this.maxTurns = MAX_TURNS;
         this.resources = { ...initialResources };
         this.discovery = { ...initialDiscovery };
+        this.ship = null;
+        this.artifact = null;
+        this.selectedCrew = [];
         this.crew = [];
         this.history = [];
     }

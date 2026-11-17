@@ -5,11 +5,8 @@ import { GameManager } from './core/GameManager.js';
 import { GameUI } from './ui/GameUI.js';
 import { MinigameManager } from './minigames/MinigameManager.js';
 import { minigamesData } from './data/minigamesData.js';
-import { ShipSelection } from './core/ShipSelection.js';
-import { shipsData } from './data/shipsData.js';
 
 const gm = new GameManager();
-let selectedShip = null;
 
 function startPageMinigame() {
     const page = ComicPages.getIndex() + 1;
@@ -22,10 +19,24 @@ function startPageMinigame() {
     });
 }
 
+async function showObservatoryImage() {
+    $('story-title').textContent = 'OBSERVATORY IMAGE RECOVERED';
+    $('story-text').textContent = 'Luke, you know this is a once-in-a-lifetime opportunity before it vanishes into the void. I need you to intercept it so we can study it.';
+    $('story-day').textContent = '';
+    $('story-art').src = 'assets/img/img2.png';
+    $('story-art-frame').hidden = false;
+    $('story-actions').innerHTML = '<button id="btn-prepare-mission" class="btn-next">Prepare Mission</button>';
+    await ScreenManager.goToScreen(SCREENS.STORY);
+    $('btn-prepare-mission').addEventListener('click', async () => {
+        GameUI.resetLoadout();
+        await ScreenManager.goToScreen(SCREENS.LOADOUT);
+    });
+}
+
 async function startRun() {
     MinigameManager.stop();
     gm.reset();
-    gm.startGame();    // TODO: aplicar selectedShip al GameManager (necesito GameManager.js)
+    if (!gm.startGame(GameUI.getLoadout())) return;
     ComicPages.reset();
     GameUI.showEvent(null);
     GameUI.renderAll();
@@ -50,26 +61,31 @@ async function onNextPage() {
 
 document.addEventListener('DOMContentLoaded', () => {
     GameUI.init(gm, uid => {
-        const r = gm.cards.play(uid);
-        GameUI.toast(r.message);
+        const result = gm.cards.play(uid);
+        GameUI.toast(result.message);
         GameUI.renderAll();
     });
-
-    // NUEVO: inicializa la selección de nave
-    ShipSelection.init(shipId => {
-        selectedShip = shipsData[shipId];
-        startRun();
-    });
+    GameUI.initLoadout(() => startRun());
 
     const modal = document.getElementById('modal-intro');
     document.getElementById('btn-start').addEventListener('click', () => modal.classList.remove('hidden'));
-
-    // CAMBIADO: antes llamaba a startRun(), ahora abre la selección
-    document.getElementById('btn-next').addEventListener('click', () => {
+    document.getElementById('btn-next').addEventListener('click', async () => {
         modal.classList.add('hidden');
-        ScreenManager.goToScreen(SCREENS.SELECTION);
+        $('story-art-frame').hidden = true;
+        await showObservatoryImage();
     });
-
+    document.getElementById('btn-loadout-back').addEventListener('click', async () => {
+        if (await ScreenManager.goToScreen(SCREENS.INTRO)) modal.classList.remove('hidden');
+    });
+    document.getElementById('btn-loadout-previous').addEventListener('click', () => GameUI.previousLoadoutRound());
+    document.getElementById('btn-loadout-next').addEventListener('click', () => GameUI.nextLoadoutRound());
+    document.getElementById('btn-confirm-loadout').addEventListener('click', () => GameUI.confirmLoadout());
     document.getElementById('btn-next-page').addEventListener('click', onNextPage);
-    document.getElementById('btn-restart').addEventListener('click', () => { MinigameManager.stop(); ScreenManager.resetTo(SCREENS.INTRO); });
+    document.getElementById('btn-restart').addEventListener('click', () => {
+        MinigameManager.stop();
+        GameUI.resetLoadout();
+        ScreenManager.resetTo(SCREENS.INTRO);
+    });
 });
+
+function $(id) { return document.getElementById(id); }
